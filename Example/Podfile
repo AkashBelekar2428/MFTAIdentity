@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'MFTAIdentity_Example' do
+  pod 'MFTAIdentity', :path => '../'
+
+  target 'MFTAIdentity_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
