@@ -15,6 +15,8 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		AE87BFD32A455DE3002586F0 /* AuthenticationSuccess.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE87BFD12A455DE2002586F0 /* AuthenticationSuccess.xib */; };
+		AE87BFD42A455DE3002586F0 /* AuthenticationSuccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87BFD22A455DE3002586F0 /* AuthenticationSuccess.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +33,7 @@
 		0A2E54406554DA1014711713 /* Pods_MFTAIdentity_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MFTAIdentity_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		214E805CF031F31C164A2171 /* Pods-MFTAIdentity_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MFTAIdentity_Example.debug.xcconfig"; path = "Target Support Files/Pods-MFTAIdentity_Example/Pods-MFTAIdentity_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		22BD1EFD76BA9DC927691D47 /* Pods-MFTAIdentity_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MFTAIdentity_Tests.debug.xcconfig"; path = "Target Support Files/Pods-MFTAIdentity_Tests/Pods-MFTAIdentity_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		26F75C0D96FD71B0736B9A69 /* MFTAIdentity.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MFTAIdentity.podspec; path = ../MFTAIdentity.podspec; sourceTree = "<group>"; };
+		26F75C0D96FD71B0736B9A69 /* MFTAIdentity.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MFTAIdentity.podspec; path = ../MFTAIdentity.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* MFTAIdentity_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MFTAIdentity_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -42,6 +44,8 @@
 		607FACE51AFB9204008FA782 /* MFTAIdentity_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MFTAIdentity_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		AE87BFD12A455DE2002586F0 /* AuthenticationSuccess.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuthenticationSuccess.xib; sourceTree = "<group>"; };
+		AE87BFD22A455DE3002586F0 /* AuthenticationSuccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationSuccess.swift; sourceTree = "<group>"; };
 		B5104CC03B436C9EBF5218AA /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D9503F7E51103A17938855B1 /* Pods_MFTAIdentity_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MFTAIdentity_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F28CC5139E3E37278F9D7C32 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -117,6 +121,8 @@
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
+				AE87BFD22A455DE3002586F0 /* AuthenticationSuccess.swift */,
+				AE87BFD12A455DE2002586F0 /* AuthenticationSuccess.xib */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
@@ -248,6 +254,7 @@
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				AE87BFD32A455DE3002586F0 /* AuthenticationSuccess.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,11 +297,17 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MFTAIdentity_Example/Pods-MFTAIdentity_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/MFTAIdentity/MFTAIdentity.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MFTAIdentity.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -331,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				AE87BFD42A455DE3002586F0 /* AuthenticationSuccess.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

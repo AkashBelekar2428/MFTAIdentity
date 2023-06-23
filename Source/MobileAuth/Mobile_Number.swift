@@ -192,18 +192,31 @@ public class Mobile_Number:UIView {
     func commonInit() {
         guard let view = loadViewFromNib() else { return }
         view.frame = self.bounds
-        tfMobileNumber.delegate = self
-        
-        let tolBar = UIToolbar()
-        tolBar.sizeToFit()
-        tolBar.accessibilityIdentifier = "ToolBar"
-        let flexSpac = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let doneBtn = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.endEditing))
-        doneBtn.tintColor = .black
-        tolBar.setItems([flexSpac,doneBtn], animated: false)
-        tfMobileNumber.inputAccessoryView = tolBar
-
         self.addSubview(view)
+        tfMobileNumber.delegate = self
+        setupToolBar()
+        setupCountrycode()
+    }
+    
+    func setupCountrycode(){
+        if #available(iOS 14.0, *){
+            
+            var tempArr = [UIAction]()
+            for code in constantValue.countryArray {
+                
+                let action = UIAction(title: code, image:nil, attributes: .Element(), handler: { (_) in
+                    self.lblCountryCode.text = code
+                })
+                tempArr.append(action)
+            }
+            
+            var demoMenu: UIMenu {
+                return UIMenu(title: "Select country code", image: nil, identifier: nil, options: [], children: tempArr)
+            }
+            
+            btnCountryCode.showsMenuAsPrimaryAction = true
+            btnCountryCode.menu = demoMenu
+        }
     }
     
     func loadViewFromNib() -> UIView? {
@@ -227,33 +240,15 @@ public class Mobile_Number:UIView {
     }
     
     private func removePickerView() {
-        
         if let tagView = self.viewWithTag(self.pickerViewtag){
             tagView.removeFromSuperview()
         }
     }
     
-    
     func ShowContryCodeList() {
         
         if #available(iOS 14.0, *) {
-            var tempArr = [UIAction]()
-            for code in constantValue.countryArray {
-                
-                let action = UIAction(title: code, image:nil, attributes: .Element(), handler: { (_) in
-                    self.lblCountryCode.text = code
-                })
-                tempArr.append(action)
-            }
-            
-            var demoMenu: UIMenu {
-                return UIMenu(title: "Select country code", image: nil, identifier: nil, options: [], children: tempArr)
-            }
-           
-            btnCountryCode.showsMenuAsPrimaryAction = true
-            btnCountryCode.menu = demoMenu
-            
-        } else {
+        }  else {
             
             let pickerView = DataPickerView.init()
             pickerView.delegate = self

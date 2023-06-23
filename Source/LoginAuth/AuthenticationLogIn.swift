@@ -62,9 +62,9 @@ public class AuthenticationLogIn: UIView{
     func commonInit(){
         guard let view = loadViewFromNib() else { return }
         view.frame = self.bounds
+        self.addSubview(view)
         tfEmail.delegate = self
         tfPassword.delegate = self
-        self.addSubview(view)
         self.viewContainerAuth.isHidden = true
     }
     

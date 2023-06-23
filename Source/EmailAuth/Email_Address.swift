@@ -49,8 +49,8 @@ public class Email_Address: UIView{
     func commonInit() {
         guard let view = loadViewFromNib() else { return }
         view.frame = self.bounds
-        tfEmail.delegate = self
         self.addSubview(view)
+        tfEmail.delegate = self
     }
     
     func loadViewFromNib() -> UIView?{

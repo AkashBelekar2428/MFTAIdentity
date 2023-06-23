@@ -70,11 +70,15 @@ public class PINView: UIView {
     func commonInit() {
         guard let view = loadViewFromNib() else { return }
         view.frame = self.bounds
-        pinVarTf.delegate = self
         self.addSubview(view)
-        
+        pinVarTf.delegate = self
         pinVarTf.text = ""
         
+        setupToolBar()
+        setupPINLayer()
+    }
+    
+    func setupToolBar(){
         let tolBar = UIToolbar()
         tolBar.sizeToFit()
         tolBar.accessibilityIdentifier = "ToolBar"
@@ -83,7 +87,8 @@ public class PINView: UIView {
         doneBtn.tintColor = .black
         tolBar.setItems([flexSpac,doneBtn], animated: false)
         pinVarTf.inputAccessoryView = tolBar
-        
+    }
+    func setupPINLayer(){
         txtFirst.textColor = TAColor.TAPinTextColor
         txtSecond.textColor = TAColor.TAPinTextColor
         txtthird.textColor = TAColor.TAPinTextColor
@@ -402,11 +407,7 @@ public class PINView: UIView {
        }else{
            self.delegate?.resendPIN()
        }
-        
-
         resetPinText()
-       
-        
     }
     //MARK: IBAction For actionTapToEnterPin Button
     @IBAction func actionTapToEnterPin() {
