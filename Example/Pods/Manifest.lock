@@ -1,0 +1,16 @@
+PODS:
+  - MFTAIdentity (0.1.0)
+
+DEPENDENCIES:
+  - MFTAIdentity (from `../`)
+
+EXTERNAL SOURCES:
+  MFTAIdentity:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  MFTAIdentity: d4f760e6ca2b843a8c33410da39c4808140656cf
+
+PODFILE CHECKSUM: 2e4aadd100a97aba6b8f198277161bb6a49f01b3
+
+COCOAPODS: 1.12.1
