@@ -108,6 +108,8 @@ public class AuthenticationLogIn: UIView{
             emailIcon.TAText = TAFontIcon.TA_Icon_mail
         }
         
+        setThemsForFontLabel(FontClass: TAFontIcon.self, Font: "authentication_font_file")
+
         emailIcon.TATextColor = TAFontIcon.TATextColor
         emailIcon.TATextFont = UIFont(name: "authentication_font_file", size: 20)!
         

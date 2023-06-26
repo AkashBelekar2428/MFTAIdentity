@@ -112,6 +112,7 @@ public class Email_Address: UIView{
         tfView.TAViewBorderColor = TAColor.TAPlaceholderText_borderColor
         
         //MARK: Configuration for Email Icon
+        setThemsForFontLabel(FontClass: TAFontIcon.self, Font: "authentication_font_file")
         emailIcon.TAText = TAFontIcon.TA_Icon_mail
         emailIcon.TATextColor = TAFontIcon.TATextColor
         emailIcon.TATextFont = UIFont(name: "authentication_font_file", size: 20)!

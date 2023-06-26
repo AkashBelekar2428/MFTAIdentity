@@ -114,6 +114,7 @@ public class Mobile_Number:UIView {
         lblCountryCode.TATextNumberOfLines = 0
         
         //MARK: Configuration for Country Code Icon Label
+        setThemsForFontLabel(FontClass: TAFontIcon.self, Font: "authentication_font_file")
         lblCountryCodeIcon.TAText = TAFontIcon.TA_Icon_down_arrow
         lblCountryCodeIcon.TATextColor = TAFontIcon.TATextColor
         lblCountryCodeIcon.TATextFont = UIFont(name: "authentication_font_file", size: 20)!
