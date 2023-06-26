@@ -40,12 +40,12 @@ class ViewController: UIViewController,TAMultiAuthFactorSuccess {
 //        authAuth.setDefaultThems()
 //        authAuth.frame = self.view.bounds
 //       // self.view.addSubview(authAuth)
-////
+//
 //        let authEmail = Email_Address()
 //        authEmail.controller = self
 //        authEmail.setEmailDefaultThemes()
 //        authEmail.frame = self.view.bounds
-//        self.view.addSubview(authEmail)
+//        //self.view.addSubview(authEmail)
 //
 //
 //        let authMob = Mobile_Number()

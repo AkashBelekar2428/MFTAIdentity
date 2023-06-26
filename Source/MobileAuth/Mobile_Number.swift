@@ -291,6 +291,7 @@ extension Mobile_Number:UITextFieldDelegate{
         return true
     }
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        lblEnterValidMobNum.text = ""
         return true
     }
     
