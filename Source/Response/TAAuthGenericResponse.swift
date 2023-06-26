@@ -97,6 +97,7 @@ public class TAAuthGenericResponseDataObj : Mappable {
     public var email: String = ""
     public var phoneNumber:String = ""
     public var isReadonlyPrepopulatedValue: Bool = false
+    public var lockoutMinutes: Int = -1
     
     public var nextStepEnum : TAAuthFactorNextStep = .NONE
     public var authType : TAAuthFactorType = .NONE
@@ -118,6 +119,7 @@ public class TAAuthGenericResponseDataObj : Mappable {
         email                           <- map["email"]
         phoneNumber                     <- map["phoneNumber"]
         isReadonlyPrepopulatedValue     <- map["isReadonlyPrepopulatedValue"]
+        lockoutMinutes                  <- map["lockoutMinutes"]
     }
 }
 

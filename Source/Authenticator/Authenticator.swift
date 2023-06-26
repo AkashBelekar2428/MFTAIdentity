@@ -39,6 +39,8 @@ public class Authenticator : TAAuthProtocols {
     private var auth = AuthenticationLogIn()
     private var mobile = Mobile_Number()
     private var resendPinCounter = 0
+    private let defaults = UserDefaults.standard
+    private let userLockKey = "userLock"
     
     //MARK: Tag
     private var tagForComponent : Int {
@@ -100,8 +102,14 @@ public class Authenticator : TAAuthProtocols {
                 if genericResp.errorCode == constantValue.code_Userlock || genericResp.errorCode == constantValue.E_INVALID_SESSION {
                     self.navigateToFirstAuth(msg: genericResp.errorMessage)
                     print("user Locked ---\(genericResp.errorMessage)")
+                  //  UserDefaults.standard.string(forKey: "lockoutMinutes")
+                   defaults.set(userLockKey, forKey: "lockoutMinutes")
+                    print("lockoutMinutes",TAAuthRespObj?.data.lockoutMinutes)
+                     let userlockTimer = defaults.object(forKey: "lockoutMinutes") as? String
+                    timerStart()
                     
-                } else {
+                }  else {
+                    
                     
                     let type = self.TAAuthRespObj?.data.componentType
                     if type == .USERNAME_PASSWORD || type == .EMAIL_PASSWORD {
@@ -116,7 +124,10 @@ public class Authenticator : TAAuthProtocols {
                         mobile.lblEnterValidMobNum.text = genericResp.errorMessage
                         print("MobileErrMsg----\(genericResp.errorMessage)")
                     }
+                    
                 }
+                
+               
                 
                 hideLoader()
                 
@@ -171,6 +182,13 @@ public class Authenticator : TAAuthProtocols {
             hideLoader()
         }
     }
+    
+    @objc func timeFired(){
+       // var lockTime = defaults.object(forKey: "lockoutMinutes") as? Int
+      //  lockTime! -= 1
+       // print("timer down sec \(lockTime)")
+    }
+   
     
     private func navigateToFirstAuth(msg:String){
         AlertManager.shared.showSingleAlert(title: "Alert", msg: msg, action: "OK", firstCompletion: {
@@ -415,5 +433,14 @@ extension Authenticator : ComponentManagerDelegate {
         model.authSessionId = dataObj!.sessionId
         RequestModel.model = model
         self.TAResendPIN(RequestModel: RequestModel)
+    }
+}
+
+extension Authenticator{
+    
+    func timerStart(){
+        let timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(timeFired), userInfo: nil, repeats: false)
+           
+       print("timer",timer)
     }
 }
