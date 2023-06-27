@@ -346,7 +346,9 @@ public class Authenticator : TAAuthProtocols {
 //MARK:  MiddleLayer Extension
 extension Authenticator : ComponentManagerDelegate {
     public func resetAuthFactors() {
-        InitialAuthetication(startAuthModel: startAuthModel!)
+        AlertManager.shared.showSingleAlert(title: "Alert", msg: constantValue.msg_attempts_resendPIN, action: "OK", firstCompletion: {
+            self.InitialAuthetication(startAuthModel: self.startAuthModel!)
+        }, viewController: self.controller ?? UIViewController())
     }
     //MARK: Set ComponentManagerDelegate
     public func sendPinBtnAction(email: String, password: String) {

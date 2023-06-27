@@ -22,6 +22,7 @@ public class TAColor{
     public static let TAShadowColor = UIColor(red: 208/255, green: 212/255, blue: 221/255, alpha: 1)
     public static let TAPinTextColor = UIColor(red: 69/255, green: 70/255, blue: 77/255, alpha: 1)
     public static let TAPickerViewBackgroundColor = UIColor.lightGray
+    public static let TAPrepopulateBackgroundColor = UIColor(red: 241/255, green: 241/255, blue: 241/255, alpha: 1) //#F1F1F1
 
 }
 

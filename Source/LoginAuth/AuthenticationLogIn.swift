@@ -187,6 +187,7 @@ public class AuthenticationLogIn: UIView{
             
             if !prepopulateValue.isEmpty{
                 tfFirst.TATfText = prepopulateValue
+                viewAuthType.backgroundColor = TAColor.TAPrepopulateBackgroundColor
                 tfEmail.isUserInteractionEnabled = false
             }else{
                 tfEmail.isUserInteractionEnabled = true
@@ -196,6 +197,7 @@ public class AuthenticationLogIn: UIView{
             
             if !prepopulateValue.isEmpty{
                 tfFirst.TATfText = prepopulateValue
+                viewAuthType.backgroundColor = TAColor.TAPrepopulateBackgroundColor
                 tfEmail.isUserInteractionEnabled = false
             }else{
                 tfEmail.isUserInteractionEnabled = true
@@ -363,12 +365,18 @@ extension AuthenticationLogIn:UITextFieldDelegate{
         textField.resignFirstResponder()
         return true
     }
-    public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        print("textFieldShouldBeginEditing")
-        if textField == tfEmail{
-            lblEnterValidAuth.text = ""
-        }else{
-            lblEnterValidePassword.text = ""
+
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
+        if textField == tfEmail {
+            if newText != nil {
+                lblEnterValidAuth.text = ""
+                
+            }
+        }else if textField == tfPassword{
+            if newText != nil{
+                lblEnterValidePassword.text = ""
+            }
         }
         return true
     }

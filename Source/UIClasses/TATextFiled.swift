@@ -18,5 +18,6 @@ public class TATextFiled {
     public var TATextfiledPlaceHolderBorderWidth: Double = 0
     public var TATextfiledPlaceHolderBorderColor: UIColor = UIColor.black
     public var TATextfiledPlaceHolderCornerRadius: Int = 0
+    //public var TATextfiledPlaceHolderBackgroundColor:UIColor = UIColor.white
 }
 
