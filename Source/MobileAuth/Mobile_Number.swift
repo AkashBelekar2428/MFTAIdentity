@@ -259,7 +259,6 @@ public class Mobile_Number:UIView {
             self.addSubview(pickerView)
             pickerView.scrollToValue(value: self.lblCountryCode.text ?? "")
         }
-
     }
     
     
