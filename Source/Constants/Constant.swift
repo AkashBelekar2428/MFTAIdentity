@@ -71,6 +71,10 @@ public class constant {
     public let E_INVALID_AUTH_FLOW = "E_INVALID_AUTH_FLOW";
     public let E_INVALID_PIN = "E_INVALID_PIN";
 
+    
+    
+   //MARK: Userdefault keys
+  public let UD_USERLOCKKEY = "userLock"
 
 }
 

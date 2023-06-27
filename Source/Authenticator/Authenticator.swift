@@ -40,7 +40,11 @@ public class Authenticator : TAAuthProtocols {
     private var mobile = Mobile_Number()
     private var resendPinCounter = 0
     private let defaults = UserDefaults.standard
-    private let userLockKey = "userLock"
+    
+    var userLockCounter = 0
+    var userLockCounterForSec = 0
+   
+    var timer = Timer()
     
     //MARK: Tag
     private var tagForComponent : Int {
@@ -100,13 +104,13 @@ public class Authenticator : TAAuthProtocols {
                 }else
                 // show alert with errorMessage
                 if genericResp.errorCode == constantValue.code_Userlock || genericResp.errorCode == constantValue.E_INVALID_SESSION {
+                    
                     self.navigateToFirstAuth(msg: genericResp.errorMessage)
                     print("user Locked ---\(genericResp.errorMessage)")
-                  //  UserDefaults.standard.string(forKey: "lockoutMinutes")
-                   defaults.set(userLockKey, forKey: "lockoutMinutes")
-                    print("lockoutMinutes",TAAuthRespObj?.data.lockoutMinutes)
-                     let userlockTimer = defaults.object(forKey: "lockoutMinutes") as? String
-                    timerStart()
+                    
+                    defaults.set(TAAuthRespObj?.data.lockoutMinutes, forKey: constantValue.UD_USERLOCKKEY)
+                    defaults.synchronize()
+                    startTimer()
                     
                 }  else {
                     
@@ -126,9 +130,6 @@ public class Authenticator : TAAuthProtocols {
                     }
                     
                 }
-                
-               
-                
                 hideLoader()
                 
             }else if let pinResponse = resp?.respObj as? TAResendPINResponse{
@@ -181,20 +182,20 @@ public class Authenticator : TAAuthProtocols {
             }
             hideLoader()
         }
+        
     }
     
     @objc func timeFired(){
-       // var lockTime = defaults.object(forKey: "lockoutMinutes") as? Int
-      //  lockTime! -= 1
-       // print("timer down sec \(lockTime)")
+      
+        userLockTime()
+       
     }
-   
     
     private func navigateToFirstAuth(msg:String){
         AlertManager.shared.showSingleAlert(title: "Alert", msg: msg, action: "OK", firstCompletion: {
             
             print("userLockedMsg----\(msg)")
-            
+            //self.controller?.view.isUserInteractionEnabled = false
             self.InitialAuthetication(startAuthModel: self.startAuthModel!)
         }, viewController: self.controller ?? UIViewController())
     }
@@ -207,7 +208,7 @@ public class Authenticator : TAAuthProtocols {
         self.SetAuthFactorType(authFactor: (self.TAAuthRespObj?.data.nextAuthFactor) ?? 0)
         self.SetAuthNextStep(nextStep: (self.TAAuthRespObj?.data.nextStep) ?? 0)
         self.SetComponentType(authFactor: dataObj!.authType, nextStep: dataObj!.nextStepEnum)
-        
+        self.userLockCounter = dataObj!.lockoutMinutes
         print("Factor ==> \(String(describing: self.TAAuthRespObj?.data.nextStepEnum))")
         print("Type ==> \(String(describing: self.TAAuthRespObj?.data.authType))")
         
@@ -438,9 +439,32 @@ extension Authenticator : ComponentManagerDelegate {
 
 extension Authenticator{
     
-    func timerStart(){
-        let timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(timeFired), userInfo: nil, repeats: false)
-           
+    func startTimer(){
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(self.userLockCounter), target: self, selector: #selector(timeFired), userInfo: nil, repeats: true)
+        convertMinIntoSec(time: self.userLockCounter)
        print("timer",timer)
+    }
+    
+    func stopTimer(){
+        timer.invalidate()
+        
+    }
+    func convertMinIntoSec(time:Int){
+        var convertTosec = time * 60
+        userLockCounterForSec = convertTosec
+        
+    }
+    
+    
+    func userLockTime()  {
+       
+        print("convertoSec",userLockCounterForSec)
+        userLockCounterForSec -= 1
+        if userLockCounterForSec <= 0{
+            print("Finish")
+         //   self.controller?.view.isUserInteractionEnabled = true
+            stopTimer()
+        }
+
     }
 }

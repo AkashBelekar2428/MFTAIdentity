@@ -287,7 +287,7 @@
 		4599DC1135158BA19B2FA1A37D0A46AC /* TAImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TAImage.swift; sourceTree = "<group>"; };
 		47C6C64CC5581318CE38BDA30820D7B5 /* Authenticator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		4CEEC3A2DA20DD2DB977060D980283DB /* TAAssetsImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TAAssetsImage.swift; sourceTree = "<group>"; };
-		4D472B23B78156ED980631E9B5A423AF /* Pods-MFTAIdentity_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-MFTAIdentity_Tests"; path = Pods_MFTAIdentity_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D472B23B78156ED980631E9B5A423AF /* Pods_MFTAIdentity_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MFTAIdentity_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F1941B10D7C86E00934FD045018DACA /* PINView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = PINView.xib; sourceTree = "<group>"; };
 		52B04F72F0795CE16E775DEE50A59B5E /* Poppins-Bold.ttf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		531196DF7051B4010B0124F6F1A9E8D5 /* RequestInterceptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestInterceptor.swift; path = Source/RequestInterceptor.swift; sourceTree = "<group>"; };
@@ -656,7 +656,7 @@
 				6F8D6263D2C3E0DC470686CF848748D2 /* MFTAIdentity */,
 				B9084FE779702931E8DF1D00A2D725FB /* ObjectMapper */,
 				BE024877DEAB0D65B939C201DE44A826 /* Pods-MFTAIdentity_Example */,
-				4D472B23B78156ED980631E9B5A423AF /* Pods-MFTAIdentity_Tests */,
+				4D472B23B78156ED980631E9B5A423AF /* Pods_MFTAIdentity_Tests.framework */,
 				E97D43C46A45EE515A4DA3AF94398441 /* SVProgressHUD */,
 			);
 			name = Products;
@@ -1088,7 +1088,7 @@
 			);
 			name = "Pods-MFTAIdentity_Tests";
 			productName = Pods_MFTAIdentity_Tests;
-			productReference = 4D472B23B78156ED980631E9B5A423AF /* Pods-MFTAIdentity_Tests */;
+			productReference = 4D472B23B78156ED980631E9B5A423AF /* Pods_MFTAIdentity_Tests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		EAAA1AD3A8A1B59AB91319EE40752C6D /* Alamofire */ = {

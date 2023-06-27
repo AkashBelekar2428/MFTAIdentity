@@ -27,7 +27,7 @@ class ViewController: UIViewController,TAMultiAuthFactorSuccess {
         let requestModel = TAAuthenticateStartRequest.init()
         
         let model = TAAuthenticateStartModelObj.init()
-        model.clientId = "ec4392de-47ac-4632-baf6-04dbf49f064f"
+        model.clientId = "7f627b8a-d174-4679-bb37-4414afd34ee2"
         model.clientScope = "ottr-apis"
         requestModel.model = model
         
