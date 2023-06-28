@@ -111,6 +111,7 @@ public class Authenticator : TAAuthProtocols {
                     defaults.set(TAAuthRespObj?.data.lockoutMinutes, forKey: constantValue.UD_USERLOCKKEY)
                     defaults.synchronize()
                     startTimer()
+                    print("Retrylimit",TAAuthRespObj?.data.retryLimit)
                     
                 }  else {
                     
@@ -192,11 +193,19 @@ public class Authenticator : TAAuthProtocols {
     }
     
     private func navigateToFirstAuth(msg:String){
-        AlertManager.shared.showSingleAlert(title: "Alert", msg: msg, action: "OK", firstCompletion: {
-            
+        AlertManager.shared.showSingleAlert(title: "Alert", msg: msg, action: "OK", firstCompletion: { [self] in
             print("userLockedMsg----\(msg)")
-            //self.controller?.view.isUserInteractionEnabled = false
-            self.InitialAuthetication(startAuthModel: self.startAuthModel!)
+            
+            let componentType = TAAuthRespObj?.data.componentType
+            print("componentType",componentType)
+            if componentType == .USERNAME_PASSWORD  || componentType == .EMAIL_PASSWORD {
+                auth.viewContainerAuth.isUserInteractionEnabled = false
+               
+            }else {
+                self.InitialAuthetication(startAuthModel: self.startAuthModel!)
+            }
+           
+           
         }, viewController: self.controller ?? UIViewController())
     }
     
@@ -450,6 +459,7 @@ extension Authenticator{
         
     }
     func convertMinIntoSec(time:Int){
+       
         var convertTosec = time * 60
         userLockCounterForSec = convertTosec
         
@@ -457,7 +467,7 @@ extension Authenticator{
     
     
     func userLockTime()  {
-       
+        
         print("convertoSec",userLockCounterForSec)
         userLockCounterForSec -= 1
         if userLockCounterForSec <= 0{
