@@ -237,7 +237,7 @@ public class Mobile_Number:UIView {
     }
     
     @objc func doneBtnTapped(_ tap:UITapGestureRecognizer){
-        viewContainerMobile.endEditing(true)
+        tfMobileNumber.resignFirstResponder()
     }
     
     private func removePickerView() {

@@ -48,7 +48,6 @@ public class constant {
 
     //MARK: Attempts More
     public let msg_attempts_wrong_Password = "Your Account is locked. Unlock it by raising a support request."
-    public let msg_attempts_wrong_PIN = "Your Account is locked. Unlock it by raising a support request."
     public let msg_attempts_resendPIN = "You have reached the max attempts for re-sending PIN. Please try logging in after some time."
 
     //MARK: Password
@@ -59,7 +58,6 @@ public class constant {
 
     //MARK: Error codes
     public let code_Userlock = "E_USER_LOCKED"
-    public let E_USERLOCKED = "Your Account is locked. Unlock it by raising a support request." 
 
     public let E_INVALID_CLIENT  = "E_INVLID_CLIENT";
     public let E_INVALID_SCOPE = "E_INVLID_SCOPE";

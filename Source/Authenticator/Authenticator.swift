@@ -98,7 +98,14 @@ public class Authenticator : TAAuthProtocols {
                 }else
                 // show alert with errorMessage
                 if genericResp.errorCode == constantValue.code_Userlock || genericResp.errorCode == constantValue.E_INVALID_SESSION {
-                    self.navigateToFirstAuth(msg: constantValue.E_USERLOCKED)
+                  
+                    if genericResp.errorCode == constantValue.code_Userlock{
+                        self.navigateToFirstAuth(msg: constantValue.msg_attempts_wrong_Password)
+                    }else{
+                        self.navigateToFirstAuth(msg: genericResp.errorMessage)
+                    }
+                    
+                   
                     print("user Locked ---\(genericResp.errorMessage)")
                     
                 } else {
