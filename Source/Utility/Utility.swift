@@ -159,3 +159,10 @@ func formatMobileNumber(number: String) -> String {
 
     return formattedNumber
 }
+
+//Date to milliseconds
+func currentTimeInMiliseconds() -> Int {
+    let currentDate = Date()
+    let since1970 = currentDate.timeIntervalSince1970
+    return Int(since1970 * 1000)
+}

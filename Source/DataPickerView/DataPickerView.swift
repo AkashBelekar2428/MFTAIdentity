@@ -24,7 +24,7 @@ public class DataPickerView:UIView {
     let nibName = "DataPickerView"
     public weak var delegate : DataPickerDelegate?
     var pickedValue = ""
-   public var constantValue = constant()
+   public var constantValue = Constants()
     
     //MARK: System methods
     required init?(coder aDecoder: NSCoder){

@@ -49,6 +49,7 @@ public class AuthenticationLogIn: UIView{
    // public var emailCountLimit: Int = 0
     public var count:Int = 0
     public var isFirstFactor: Bool = false
+    public var isUserLocked: Bool = false
     
     //MARK: System methods
     required init?(coder aDecoder: NSCoder){
@@ -307,7 +308,7 @@ public class AuthenticationLogIn: UIView{
                 let username = ValidationClass.shared.isFieldEmpty(value: tfEmail.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .USERNAME)
                 let password = ValidationClass.shared.isFieldEmpty(value: tfPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .PASSWORD)
                 
-                if apiCountLimit <= count && self.isFirstFactor == true {
+                if (apiCountLimit <= count && self.isFirstFactor == true) || (isUserLocked == true) {
                  
                     print("Count",count)
                     print("ApiCountLimit",apiCountLimit)
@@ -339,7 +340,7 @@ public class AuthenticationLogIn: UIView{
                 let email = ValidationClass.shared.isFieldEmpty(value: tfEmail.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .EMAIL)
                 let password = ValidationClass.shared.isFieldEmpty(value: tfPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .PASSWORD)
                 
-                    if apiCountLimit <= count && self.isFirstFactor == true {
+                if (apiCountLimit <= count && self.isFirstFactor == true) || (isUserLocked == true) {
                         print("Count",count)
                         print("ApiCountLimit",apiCountLimit)
                         AlertManager.shared.showAlert(title: "Alert", msg: " Your account is temporarily locked. Please wait for  minutes before attempting to log in again.", action: "ok", viewController: self.controller ?? UIViewController())

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class constant {
+public class Constants {
     //MARK: Constant Properties
    public let Password_Minimun = 8
    public let Password_Maximum = 25
@@ -80,6 +80,11 @@ public class constant {
     public let API_COUNT = "ApiTimingCount"
     public let CURRENT_TIME = "CurrentTime"
     public let TOTAL_TIME = "TotalTime"
+    
+    public let UD_Time_Start = "starttime"
+    public let UD_Time_Stop = "stoptime"
+    public let UD_Time_Running = "runningtime"
+    
     
 }
 

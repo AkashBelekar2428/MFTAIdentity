@@ -36,12 +36,12 @@ public class Mobile_Number:UIView {
     public var delegate:MobileNumberDelegate?
     public var mobileConfig = AuthenticationConfiguration()
     public weak var controller: UIViewController?
-    public var constantValue = constant()
+    public var constantValue = Constants()
     
     public var apiCountLimit: Int = 0
     public var count:Int = 0
     public var isFirstFactor: Bool = false
-    
+    public var isUserLocked: Bool = false
     private let pickerViewtag = 2345
     
     //MARK: System methods
@@ -272,8 +272,7 @@ public class Mobile_Number:UIView {
         
         let validatePhone = ValidationClass.shared.isPhoneValid(phone: phoneNumber)
         
-        if apiCountLimit <= count && self.isFirstFactor == true {
-         
+        if (apiCountLimit <= count && self.isFirstFactor == true) || (isUserLocked == true) {
             print("Count",count)
             print("ApiCountLimit",apiCountLimit)
             AlertManager.shared.showAlert(title: "Alert", msg: " Your account is temporarily locked. Please wait for  minutes before attempting to log in again.", action: "ok", viewController: self.controller ?? UIViewController())
