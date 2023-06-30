@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class constant {
+public class Constant {
     //MARK: Constant Properties
    public let Password_Minimun = 8
    public let Password_Maximum = 25

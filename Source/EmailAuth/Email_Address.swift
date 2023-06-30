@@ -31,8 +31,8 @@ public class Email_Address: UIView{
     //MARK: Variables
     let nibName = "Email_Address"
     public var delegate:EmailAddressDelegate?
-    public var emailConfig = AuthenticationConfiguration()
-    public weak var controller: UIViewController?
+  //  public var emailConfig = AuthenticationConfiguration()
+   // public weak var controller: UIViewController?
     
     //MARK: System methods
     required init?(coder aDecoder: NSCoder){
@@ -176,7 +176,7 @@ public class Email_Address: UIView{
     
     //MARK: IBAction
     @IBAction func validBtnAction(_ sender:UIButton){
- 
+        
         let emailValid = self.tfEmail.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let email = ValidationClass.shared.isEmailValid(email: emailValid)
         
@@ -186,7 +186,9 @@ public class Email_Address: UIView{
             lblEnterValideEmail.text = ""
             delegate?.validEmailBtnActionDelegate(email: tfEmail.text ?? "")
         }
+        tfEmail.resignFirstResponder()
     }
+    
 }
 
 //MARK: UITextFieldDelegate Extension

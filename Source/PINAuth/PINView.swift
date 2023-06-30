@@ -46,12 +46,13 @@ public class PINView: UIView {
     var timer = Timer()
     public var delegate:PINViewDelegate?
     weak var delegatePinView: GenericPINViewDelegate?
-    public var pinViewConfig = AuthenticationConfiguration()
-    public weak var controller: UIViewController?
+    // public var pinViewConfig = AuthenticationConfiguration()
+    //public weak var controller: UIViewController?
     public var maskingForValue = ""
     public var authTypes: TAAuthFactorType = .NONE
     public var resendPINTimer = Timer()
     
+    //MARK: ResendPIN variable
     public var resendPINCounter = 0
     public var resendPINTimerSecond = 0
     
@@ -73,11 +74,11 @@ public class PINView: UIView {
         self.addSubview(view)
         pinVarTf.delegate = self
         pinVarTf.text = ""
-        
         setupToolBar()
         setupPINLayer()
     }
     
+    //MARK: setupToolBar
     func setupToolBar(){
         let tolBar = UIToolbar()
         tolBar.sizeToFit()
@@ -88,6 +89,8 @@ public class PINView: UIView {
         tolBar.setItems([flexSpac,doneBtn], animated: false)
         pinVarTf.inputAccessoryView = tolBar
     }
+    
+    //MARK: setupPINLayer
     func setupPINLayer(){
         txtFirst.textColor = TAColor.TAPinTextColor
         txtSecond.textColor = TAColor.TAPinTextColor
@@ -96,14 +99,15 @@ public class PINView: UIView {
         txtFifth.textColor = TAColor.TAPinTextColor
         txtSixth.textColor = TAColor.TAPinTextColor
         
+        //MARK: textfiled box configurations
         let lblArr = [txtFirst,txtSecond,txtthird,txtFourth,txtFifth,txtSixth]
+        
         for lbl in lblArr {
             lbl!.layer.borderColor = UIColor.black.withAlphaComponent(0.30).cgColor
             lbl!.clipsToBounds = true
             lbl!.layer.cornerRadius = 6
             lbl!.layer.borderWidth = 1.0
         }
-        
         btnVerifyTextField.isUserInteractionEnabled = true
         let longPressGest = UILongPressGestureRecognizer.init(target: self, action: #selector(self.LongPressRecogniser(_:)))
         btnVerifyTextField.addGestureRecognizer(longPressGest)
@@ -141,7 +145,6 @@ public class PINView: UIView {
             bgViewVerifyPin.addSubview(btn)
             btn.addTarget(self, action: #selector(self.pasteBtnRecogniser(_:)), for: .touchUpInside)
             self.bgViewVerifyPin.endEditing(true)
-            //bgViewVerifyPin.bringSubviewToFront(btn)
             
             UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut){
                 btn.transform = .identity
@@ -187,7 +190,7 @@ public class PINView: UIView {
                         }
                     }
                     var tempI = 1
-                   resetPinText()
+                    resetPinText()
                     
                     for char in tempPin  {
                         switch tempI {
@@ -215,7 +218,7 @@ public class PINView: UIView {
                 } else {
                     if tempStr.count == 6 {
                         var tempI = 1
-                      resetPinText()
+                        resetPinText()
                         for char in tempStr  {
                             switch tempI {
                             case 1:
@@ -257,18 +260,17 @@ public class PINView: UIView {
         self.setThemeWithPINConfiguration(config: pinViewConfig)
     }
     
+    //MARK: StartResendPinTimer
     public func startResendPinTimer() {
         resendPINTimer.invalidate()
-              
+        
         resendPINTimer = Timer.scheduledTimer(timeInterval: TimeInterval(self.resendPINTimerSecond), target: self, selector: #selector(resendPINtimerAction), userInfo: nil, repeats: true)
         print("ResendPINTimer---\(resendPINTimer)")
     }
-
+    
     @objc func resendPINtimerAction() {
-        
-            self.btnResendPin.isHidden = false
-            timer.invalidate()
-            
+        self.btnResendPin.isHidden = false
+        timer.invalidate()
     }
     
     //MARK: Configure DefaultThems
@@ -382,8 +384,6 @@ public class PINView: UIView {
         
         btnResendPin.isHidden = true
         
-        // self.setThemsContainerView(view: viewContainerPIN, config: config.containerViewShow)
-        
     }
     
     //MARK: IBAction For ValidPIN
@@ -398,17 +398,20 @@ public class PINView: UIView {
             lblEnterValidPIN.text = ""
             delegate?.validPINBtnActionDelegate(pinNumber: pinVarTf.text ?? "")
         }
+        pinVarTf.resignFirstResponder()
     }
+    
     //MARK: IBAction For didnotReceivePINAction Button
     @IBAction func didnotReceivePINAction(_ sender:UIButton){
-       if resendPINCounter <= 0  {
+        if resendPINCounter <= 0  {
             print("End----")
-           delegate?.resestAuthfactor()
-       }else{
-           self.delegate?.resendPIN()
-       }
+            delegate?.resestAuthfactor()
+        }else{
+            self.delegate?.resendPIN()
+        }
         resetPinText()
     }
+    
     //MARK: IBAction For actionTapToEnterPin Button
     @IBAction func actionTapToEnterPin() {
         self.pinVarTf.becomeFirstResponder()
@@ -420,7 +423,7 @@ extension PINView: UITextViewDelegate, UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == pinVarTf {
             let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
-            if newText != nil {
+            if !newText.isEmpty {
                 lblEnterValidPIN.text = ""
             }
             guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) else {
@@ -513,10 +516,14 @@ extension PINView: UITextViewDelegate, UITextFieldDelegate {
             return true
         }
     }
+    
+    //MARK: keyboard Close to tap Return key on clipboard
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
+    
+    //MARK: Reset all Text on textfiled
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == pinVarTf{
             resetPinText()
@@ -524,6 +531,7 @@ extension PINView: UITextViewDelegate, UITextFieldDelegate {
         return true
     }
     
+    //MARK: ResetPinText
     public func resetPinText() {
         txtFirst.text = ""
         txtSecond.text = ""

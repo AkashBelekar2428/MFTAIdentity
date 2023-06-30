@@ -11,7 +11,7 @@ import Foundation
 public class APIServices: WsHelperProtocol{
     //MARK: init
     public init(){}
-
+    
     public  func GetSessionIdForAuthetication(api: String, requestModel: TAAuthenticateStartRequest, completionHandler: @escaping (GeneralRespModel?) -> Void){
         WSHelper.sharedInstance.GetSessionIdForAuthetication(api: api, requestModel: requestModel, completion: { respObj in
             switch respObj
@@ -30,7 +30,7 @@ public class APIServices: WsHelperProtocol{
             }
         })
     }
-
+    
     
     public func Authenticate(api: String, requestModel: TAAuthenticateRequest, completionHandler: @escaping (GeneralRespModel?) -> Void){
         WSHelper.sharedInstance.Authenticate(api: api, requestModel: requestModel, completion: { respObj in

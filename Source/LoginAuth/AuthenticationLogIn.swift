@@ -42,7 +42,7 @@ public class AuthenticationLogIn: UIView{
     public var delegate:AuthenticationLogInDelegate?
     public var authConfig = AuthenticationConfiguration()
     
-    public weak var controller: UIViewController?
+   // public weak var controller: UIViewController?
     public var authType : TAAuthFactorType = .NONE
     public var prepopulateValue = ""
     
@@ -65,7 +65,7 @@ public class AuthenticationLogIn: UIView{
         self.addSubview(view)
         tfEmail.delegate = self
         tfPassword.delegate = self
-        self.viewContainerAuth.isHidden = true
+        //self.viewContainerAuth.isHidden = true
     }
     
     func loadViewFromNib() -> UIView?{
@@ -182,6 +182,7 @@ public class AuthenticationLogIn: UIView{
         
         //MARK: Configuration for Textfiled placeHolder
         setThemsForFontLabel(FontClass: TAFontIcon.self, Font: "Poppins-Medium")
+        
         if  authType == .USERNAME_PASSWORD {
             tfFirst.TATextfiledPlaceHolderText = "Username"
             
@@ -193,6 +194,7 @@ public class AuthenticationLogIn: UIView{
                 tfEmail.isUserInteractionEnabled = true
             }
         }  else {
+            
             tfFirst.TATextfiledPlaceHolderText = "abc@yourdomain.com"
             
             if !prepopulateValue.isEmpty{
@@ -254,8 +256,6 @@ public class AuthenticationLogIn: UIView{
         authConfigObj.emailIcon = emailIcon
         authConfigObj.passwordIcon = passwordIcon
         authConfigObj.eyeIcon = eyeIcon
-        
-       // authConfigObj.containerViewShow = containerView
         
         return authConfigObj
     }
@@ -320,7 +320,6 @@ public class AuthenticationLogIn: UIView{
             }
         } else {
             // email and password
-            
             let email = ValidationClass.shared.isFieldEmpty(value: tfEmail.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .EMAIL)
             let password = ValidationClass.shared.isFieldEmpty(value: tfPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .PASSWORD)
             
@@ -339,14 +338,16 @@ public class AuthenticationLogIn: UIView{
                 delegate?.validAuthBtnActionDelegate(email: tfEmail.text ?? "", password: tfPassword.text ?? "")
             }
         }
+        tfEmail.resignFirstResponder()
+        tfPassword.resignFirstResponder()
     }
     
     //MARK: @IBAction For EyeButton
     @IBAction func eyeBtnAction(){
+        
         if tfPassword.isSecureTextEntry {
             setThemsForFont(FontClass: TAFontIcon.self)
             AddFontIconToButton(btn: btnEyeIcon, titles: TAFontIcon.TA_Icon_eye, color: TAColor.TAPasswordEyeIconColor, size: 20)
-
         }else{
             setThemsForFont(FontClass: TAFontIcon.self)
             AddFontIconToButton(btn: btnEyeIcon, titles: TAFontIcon.TA_Icon_eye_off, color: TAColor.TAPasswordEyeIconColor, size: 20)
@@ -354,6 +355,7 @@ public class AuthenticationLogIn: UIView{
         tfPassword.isSecureTextEntry = !tfPassword.isSecureTextEntry
     }
 
+    //MARK: @IBAction For ForgotPasswordButton
     @IBAction func forgotPasswordBtnAction(){
         
     }
@@ -369,12 +371,12 @@ extension AuthenticationLogIn:UITextFieldDelegate{
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
         if textField == tfEmail {
-            if newText != nil {
+            if !newText.isEmpty {
                 lblEnterValidAuth.text = ""
                 
             }
         }else if textField == tfPassword{
-            if newText != nil{
+            if !newText.isEmpty{
                 lblEnterValidePassword.text = ""
             }
         }

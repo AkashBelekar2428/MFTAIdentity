@@ -32,7 +32,7 @@ public class Authenticator : TAAuthProtocols {
     public var resendPINRequest : TAResendPINRequest?
     public weak var delegate : TAMultiAuthFactorSuccess?
     public var authTypes:TAAuthFactorType?
-    public var constantValue = constant()
+    public var constantValue = Constant()
 
     
     private var pinView = PINView()

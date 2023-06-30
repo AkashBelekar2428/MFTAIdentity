@@ -12,7 +12,7 @@ public class ValidationClass {
     
     //MARK: Singletone
     static public let shared = ValidationClass()
-    public var constantValue = constant()
+    public var constantValue = Constant()
     
     //MARK: UsernameValidations
     func validateUsername(_ username: String) -> Bool {

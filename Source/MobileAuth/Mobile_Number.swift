@@ -35,8 +35,8 @@ public class Mobile_Number:UIView {
     let nibName = "Mobile_Number"
     public var delegate:MobileNumberDelegate?
     public var mobileConfig = AuthenticationConfiguration()
-    public weak var controller: UIViewController?
-    public var constantValue = constant()
+   // public weak var controller: UIViewController?
+    public var constantValue = Constant()
     
     private let pickerViewtag = 2345
     
@@ -199,6 +199,7 @@ public class Mobile_Number:UIView {
         setupCountrycode()
     }
     
+    //MARK: Countrycode Pickerview
     func setupCountrycode(){
         if #available(iOS 14.0, *){
             
@@ -214,7 +215,6 @@ public class Mobile_Number:UIView {
             var demoMenu: UIMenu {
                 return UIMenu(title: "Select country code", image: nil, identifier: nil, options: [], children: tempArr)
             }
-            
             btnCountryCode.showsMenuAsPrimaryAction = true
             btnCountryCode.menu = demoMenu
         }
@@ -240,14 +240,15 @@ public class Mobile_Number:UIView {
         tfMobileNumber.resignFirstResponder()
     }
     
+    //MARK: removePickerView
     private func removePickerView() {
         if let tagView = self.viewWithTag(self.pickerViewtag){
             tagView.removeFromSuperview()
         }
     }
     
+    //MARK: ShowContryCodeList
     func ShowContryCodeList() {
-        
         if #available(iOS 14.0, *) {
         }  else {
             
@@ -262,8 +263,9 @@ public class Mobile_Number:UIView {
     }
     
     
-    //MARK: IBAction
+    //MARK: IBAction validBtnAction
     @IBAction func validBtnAction(_ sender:UIButton) {
+        tfMobileNumber.resignFirstResponder()
         let phoneNumber = self.tfMobileNumber.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         
         let validatePhone = ValidationClass.shared.isPhoneValid(phone: phoneNumber)
@@ -275,7 +277,7 @@ public class Mobile_Number:UIView {
             delegate?.validMobileBtnActionDelegate(mobileNumber: (self.lblCountryCode.text ?? "") + (tfMobileNumber.text ?? ""))
         }
     }
-    
+    //MARK: IBAction countryCodeBtnAction
     @IBAction func countryCodeBtnAction(_ sender:UIButton){
         ShowContryCodeList()
     }
@@ -284,7 +286,7 @@ public class Mobile_Number:UIView {
 //MARK: UITextFieldDelegate Extension
 extension Mobile_Number:UITextFieldDelegate{
     
-    //MARK: Keyboard Open
+    //MARK: Keyboard Close
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -294,8 +296,8 @@ extension Mobile_Number:UITextFieldDelegate{
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == tfMobileNumber{
             let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
-               
-            if newText != nil{
+            
+            if !newText.isEmpty{
                 lblEnterValidMobNum.text = ""
             }
             _ = tfMobileNumber.text!.count + string.count - range.length
@@ -309,10 +311,8 @@ extension Mobile_Number:UITextFieldDelegate{
             
             if newString.count == 10  {
                 if let textFieldText = textField.text {
-                    //  let mobileNumberText = formatMobileNumber(number: newString)
                     _ = textFieldText.replacingCharacters(in: Range(range, in: textFieldText)!, with: newString)
                     textField.text = newString
-                    //textField.text = mobileNumberText
                 }
                 return false
             }
@@ -322,6 +322,7 @@ extension Mobile_Number:UITextFieldDelegate{
     }
 }
 
+//MARK: Extention DataPickerDelegate
 extension Mobile_Number : DataPickerDelegate {
     public func DataPickerWithValue(value: String) {
         lblCountryCode.text = value
@@ -331,6 +332,4 @@ extension Mobile_Number : DataPickerDelegate {
     public func DataPickerDismiss() {
         self.removePickerView()
     }
-    
-    
 }
