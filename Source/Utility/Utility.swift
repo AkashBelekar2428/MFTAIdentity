@@ -35,6 +35,7 @@ public func setThemsForTextField(textfiled: UITextField, config:TATextFiled){
     textfiled.placeholder = config.TATextfiledPlaceHolderText
     textfiled.textColor = config.TATextfiledPlaceHolderTextColor
     textfiled.font = config.TATextfiledPlaceHolderTextFont
+    
 }
 
 //MARK:  Button Configuration

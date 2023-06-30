@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AuthenticationSuccess" customModule="Authenticator" customModuleProvider="target">
             <connections>
-                <outlet property="view" destination="1RE-7O-8BS" id="dPq-QM-nvC"/>
+                <outlet property="view" destination="1RE-7O-8BS" id="KuQ-Ki-p7L"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

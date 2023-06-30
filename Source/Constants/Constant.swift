@@ -60,6 +60,7 @@ public class constant {
 
     //MARK: Error codes
     public let code_Userlock = "E_USER_LOCKED"
+    public let E_USERLOCKED = "Your Account is locked. Unlock it by raising a support request." 
 
     public let E_INVALID_CLIENT  = "E_INVLID_CLIENT";
     public let E_INVALID_SCOPE = "E_INVLID_SCOPE";

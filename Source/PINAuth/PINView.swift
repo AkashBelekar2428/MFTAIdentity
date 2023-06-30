@@ -427,6 +427,10 @@ public class PINView: UIView {
 extension PINView: UITextViewDelegate, UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == pinVarTf {
+            let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
+            if newText != nil {
+                lblEnterValidPIN.text = ""
+            }
             guard CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) else {
                 return false
             }
@@ -524,8 +528,6 @@ extension PINView: UITextViewDelegate, UITextFieldDelegate {
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == pinVarTf{
             resetPinText()
-            lblEnterValidPIN.text = ""
-     
         }
         return true
     }

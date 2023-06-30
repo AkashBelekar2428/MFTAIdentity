@@ -263,7 +263,6 @@ public class Mobile_Number:UIView {
             self.addSubview(pickerView)
             pickerView.scrollToValue(value: self.lblCountryCode.text ?? "")
         }
-
     }
     
     
@@ -301,15 +300,15 @@ extension Mobile_Number:UITextFieldDelegate{
         textField.resignFirstResponder()
         return true
     }
-    public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        lblEnterValidMobNum.text = ""
-        return true
-    }
     
     //MARK: valid till 10 Digit
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == tfMobileNumber{
-            
+            let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
+               
+            if newText != nil{
+                lblEnterValidMobNum.text = ""
+            }
             _ = tfMobileNumber.text!.count + string.count - range.length
             let newString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
             
