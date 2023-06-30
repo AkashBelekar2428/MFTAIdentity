@@ -30,6 +30,7 @@ public class ComponentManager{
     private var enum_componentType: TAAuthFactorType = .NONE
     private var respObj = TAAuthGenericResponseDataObj.init()
     public var delegate : ComponentManagerDelegate?
+    public var isFirstFactor:Bool = false
     
     //MARK: Tag
     public var tagForComponent : Int {
@@ -39,11 +40,12 @@ public class ComponentManager{
     }
     
     //MARK: configureComponentFactorwise
-    public func configureComponentFactorwise(nextStep:Int, authFactor:Int,respObj:TAAuthGenericResponseDataObj) -> UIView? {
+    public func configureComponentFactorwise(nextStep:Int, authFactor:Int,respObj:TAAuthGenericResponseDataObj,isFirstFactor:Bool) -> UIView? {
         
         SetAuthNextStep(nextStep: nextStep)
         SetAuthFactorType(authFactor: authFactor)
         SetComponentType(authFactor: self.enum_authType, nextStep: self.enum_nextStep)
+        self.isFirstFactor = isFirstFactor
         self.respObj = respObj
         return ConfigureUI(type: self.enum_componentType)
     }
@@ -137,6 +139,7 @@ public class ComponentManager{
                     }
                     else{
                         prepopulate = self.respObj.email
+                      
                     }
                 }else{
                     prepopulate = ""
@@ -149,6 +152,8 @@ public class ComponentManager{
                     UsernamePasswordUI.authType = type
                     UsernamePasswordUI.prepopulateValue = prepopulate
                     UsernamePasswordUI.delegate = self
+                    UsernamePasswordUI.isFirstFactor = self.isFirstFactor
+                    UsernamePasswordUI.apiCountLimit = respObj.retryLimit
                     UsernamePasswordUI.setDefaultThems()
                     return UsernamePasswordUI
                 }
@@ -188,6 +193,7 @@ public class ComponentManager{
                     pinUI.resendPINCounter = respObj.pendingRetryCount
                     pinUI.resendPINTimerSecond = respObj.resendPinAfter
                     pinUI.delegate = self
+                    pinUI.apiCountLimit = respObj.retryLimit
                     pinUI.setPINDefaultThemes()
                     pinUI.startResendPinTimer()
                     return pinUI
@@ -202,6 +208,7 @@ public class ComponentManager{
                 get {
                     let MobileUI = Mobile_Number()
                     MobileUI.tag = self.tagForComponent
+                    MobileUI.apiCountLimit = respObj.retryLimit
                     MobileUI.setMobileDefaultThemes()
                     MobileUI.delegate = self
                     return MobileUI

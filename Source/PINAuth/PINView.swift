@@ -55,6 +55,9 @@ public class PINView: UIView {
     public var resendPINCounter = 0
     public var resendPINTimerSecond = 0
     
+    public var apiCountLimit: Int = 0
+    public var count:Int = 0
+    
     //MARK: System methods
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -389,14 +392,19 @@ public class PINView: UIView {
     //MARK: IBAction For ValidPIN
     @IBAction func validPINBtnAction(_ sender:UIButton) {
         let pinValide = self.pinVarTf.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-        
         let trimPIN = ValidationClass.shared.isPINValid(pin: pinValide!)
         
-        if trimPIN.1 == false{
-            lblEnterValidPIN.text = trimPIN.0
+        if apiCountLimit <= count{
+            print("Count",count)
+            print("ApiCountLimit",apiCountLimit)
+            AlertManager.shared.showAlert(title: "Alert", msg: " Your account is temporarily locked. Please wait for  minutes before attempting to log in again.", action: "ok", viewController: self.controller ?? UIViewController())
         }else{
-            lblEnterValidPIN.text = ""
-            delegate?.validPINBtnActionDelegate(pinNumber: pinVarTf.text ?? "")
+            if trimPIN.1 == false{
+                lblEnterValidPIN.text = trimPIN.0
+            }else{
+                lblEnterValidPIN.text = ""
+                delegate?.validPINBtnActionDelegate(pinNumber: pinVarTf.text ?? "")
+            }
         }
     }
     //MARK: IBAction For didnotReceivePINAction Button

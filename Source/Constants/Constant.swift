@@ -50,6 +50,7 @@ public class constant {
     public let msg_attempts_wrong_Password = "Your Account is locked. Unlock it by raising a support request."
     public let msg_attempts_wrong_PIN = "Your Account is locked. Unlock it by raising a support request."
     public let msg_attempts_resendPIN = "You have reached the max attempts for re-sending PIN. Please try logging in after some time."
+    public let msg_Account_Locked = " Your account is temporarily locked. Please wait for %d minutes before attempting to log in again."
 
     //MARK: Password
     public let msg_invalid_password = "Invalid Password"
@@ -73,9 +74,12 @@ public class constant {
 
     
     
-   //MARK: Userdefault keys
-  public let UD_USERLOCKKEY = "userLock"
-
+    //MARK: Userdefault keys
+    public let UD_USERLOCKKEY = "userLock"
+    public let API_COUNT = "ApiTimingCount"
+    public let CURRENT_TIME = "CurrentTime"
+    public let TOTAL_TIME = "TotalTime"
+    
 }
 
 

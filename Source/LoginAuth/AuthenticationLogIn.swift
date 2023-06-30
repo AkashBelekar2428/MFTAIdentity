@@ -45,7 +45,10 @@ public class AuthenticationLogIn: UIView{
     public weak var controller: UIViewController?
     public var authType : TAAuthFactorType = .NONE
     public var prepopulateValue = ""
-    
+    public var apiCountLimit: Int = 0
+   // public var emailCountLimit: Int = 0
+    public var count:Int = 0
+    public var isFirstFactor: Bool = false
     
     //MARK: System methods
     required init?(coder aDecoder: NSCoder){
@@ -297,47 +300,66 @@ public class AuthenticationLogIn: UIView{
     //MARK: IBAction
     @IBAction func validateBtnAction(_ sender:UIButton){
         
-        if authType == .USERNAME_PASSWORD {
-            
-            let username = ValidationClass.shared.isFieldEmpty(value: tfEmail.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .USERNAME)
-            let password = ValidationClass.shared.isFieldEmpty(value: tfPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .PASSWORD)
-            
-            if username.1 == false && password.1 == false {
-                lblEnterValidAuth.text = username.0
-                lblEnterValidePassword.text = password.0
-            } else if username.1 == true && password.1 == false{
-                lblEnterValidAuth.text = ""
-                lblEnterValidePassword.text = password.0
-            } else if username.1 == false && password.1 == true{
-                lblEnterValidePassword.text = ""
-                lblEnterValidAuth.text = username.0
-            }else if username.1 == true && password.1 == true{
-                lblEnterValidAuth.text = ""
-                lblEnterValidePassword.text = ""
-                delegate?.validAuthBtnActionDelegate(email: tfEmail.text ?? "", password: tfPassword.text ?? "")
+            if authType == .USERNAME_PASSWORD {
+                
+                let username = ValidationClass.shared.isFieldEmpty(value: tfEmail.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .USERNAME)
+                let password = ValidationClass.shared.isFieldEmpty(value: tfPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .PASSWORD)
+                
+                if apiCountLimit <= count && self.isFirstFactor == true {
+                 
+                    print("Count",count)
+                    print("ApiCountLimit",apiCountLimit)
+                    AlertManager.shared.showAlert(title: "Alert", msg: " Your account is temporarily locked. Please wait for  minutes before attempting to log in again.", action: "ok", viewController: self.controller ?? UIViewController())
+                } else {
+                    if username.1 == false && password.1 == false {
+                        lblEnterValidAuth.text = username.0
+                        lblEnterValidePassword.text = password.0
+                    } else if username.1 == true && password.1 == false{
+                        lblEnterValidAuth.text = ""
+                        lblEnterValidePassword.text = password.0
+                    } else if username.1 == false && password.1 == true{
+                        lblEnterValidePassword.text = ""
+                        lblEnterValidAuth.text = username.0
+                    }else if username.1 == true && password.1 == true{
+                        lblEnterValidAuth.text = ""
+                        lblEnterValidePassword.text = ""
+                        delegate?.validAuthBtnActionDelegate(email: tfEmail.text ?? "", password: tfPassword.text ?? "")
+                    }
+                }
+                
+            } else {
+                // email and password
+                
+                if isFirstFactor == true{
+                    print("----limitCount----",apiCountLimit)
+                }
+                
+                let email = ValidationClass.shared.isFieldEmpty(value: tfEmail.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .EMAIL)
+                let password = ValidationClass.shared.isFieldEmpty(value: tfPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .PASSWORD)
+                
+                    if apiCountLimit <= count && self.isFirstFactor == true {
+                        print("Count",count)
+                        print("ApiCountLimit",apiCountLimit)
+                        AlertManager.shared.showAlert(title: "Alert", msg: " Your account is temporarily locked. Please wait for  minutes before attempting to log in again.", action: "ok", viewController: self.controller ?? UIViewController())
+                    }else{
+                        if email.1 == false && password.1 == false {
+                            lblEnterValidAuth.text = email.0
+                            lblEnterValidePassword.text = password.0
+                        } else if email.1 == true && password.1 == false{
+                            lblEnterValidAuth.text = ""
+                            lblEnterValidePassword.text = password.0
+                        } else if email.1 == false && password.1 == true{
+                            lblEnterValidePassword.text = ""
+                            lblEnterValidAuth.text = email.0
+                        }else if email.1 == true && password.1 == true{
+                            lblEnterValidAuth.text = ""
+                            lblEnterValidePassword.text = ""
+                            delegate?.validAuthBtnActionDelegate(email: tfEmail.text ?? "", password: tfPassword.text ?? "")
+                        }
+                    }
             }
-        } else {
-            // email and password
-            
-            let email = ValidationClass.shared.isFieldEmpty(value: tfEmail.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .EMAIL)
-            let password = ValidationClass.shared.isFieldEmpty(value: tfPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "", type: .PASSWORD)
-            
-            if email.1 == false && password.1 == false {
-                lblEnterValidAuth.text = email.0
-                lblEnterValidePassword.text = password.0
-            } else if email.1 == true && password.1 == false{
-                lblEnterValidAuth.text = ""
-                lblEnterValidePassword.text = password.0
-            } else if email.1 == false && password.1 == true{
-                lblEnterValidePassword.text = ""
-                lblEnterValidAuth.text = email.0
-            }else if email.1 == true && password.1 == true{
-                lblEnterValidAuth.text = ""
-                lblEnterValidePassword.text = ""
-                delegate?.validAuthBtnActionDelegate(email: tfEmail.text ?? "", password: tfPassword.text ?? "")
-            }
-        }
     }
+    
     
     //MARK: @IBAction For EyeButton
     @IBAction func eyeBtnAction(){

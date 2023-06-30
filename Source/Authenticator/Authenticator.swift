@@ -39,10 +39,17 @@ public class Authenticator : TAAuthProtocols {
     private var auth = AuthenticationLogIn()
     private var mobile = Mobile_Number()
     private var resendPinCounter = 0
-    private let defaults = UserDefaults.standard
+    private let userDefaults = UserDefaults.standard
+    private var currentTime: Date?
+    public var isFirstFactor: Bool = false
     
     var userLockCounter = 0
+    var retryLimit = 0
     var userLockCounterForSec = 0
+    
+    var currentComponent : TAAuthFactorType?
+    var count = 0
+
    
     var timer = Timer()
     
@@ -96,6 +103,11 @@ public class Authenticator : TAAuthProtocols {
                 if genericResp.isError == false {
                     if genericResp.data != nil {
                         self.TAAuthRespObj = genericResp
+                        
+                        self.isFirstFactor = !isCallAutheticate
+                        
+                        self.retryLimit = (TAAuthRespObj?.data.retryLimit)!
+                        
                         self.ConfigureTypesAndSetComponent()
                     } else{
                         AlertManager.shared.showAlert(title: "Alert", msg: "No data found.", action: "OK", viewController: self.controller ?? UIViewController())
@@ -105,27 +117,43 @@ public class Authenticator : TAAuthProtocols {
                 // show alert with errorMessage
                 if genericResp.errorCode == constantValue.code_Userlock || genericResp.errorCode == constantValue.E_INVALID_SESSION {
                     
-                    self.navigateToFirstAuth(msg: genericResp.errorMessage)
+                    if genericResp.errorCode == constantValue.code_Userlock{
+                        stopTimer()
+                        self.navigateToFirstAuth(msg: "Your account is temporarily locked. Please wait for \(TAAuthRespObj?.data.lockoutMinutes ?? 0) minutes before attempting to log in again.")
+                    }else{
+                        self.navigateToFirstAuth(msg: genericResp.errorMessage)
+                    }
+                    
                     print("user Locked ---\(genericResp.errorMessage)")
                     
-                    defaults.set(TAAuthRespObj?.data.lockoutMinutes, forKey: constantValue.UD_USERLOCKKEY)
-                    defaults.synchronize()
+                    userDefaults.set(TAAuthRespObj?.data.lockoutMinutes, forKey: constantValue.UD_USERLOCKKEY)
                     startTimer()
-                    print("Retrylimit",TAAuthRespObj?.data.retryLimit)
+             
                     
                 }  else {
-                    
-                    
                     let type = self.TAAuthRespObj?.data.componentType
-                    if type == .USERNAME_PASSWORD || type == .EMAIL_PASSWORD {
+                    
+                    if type == .USERNAME_PASSWORD || type == .EMAIL_PASSWORD{
+                         auth.count += 1
+                        if auth.count == TAAuthRespObj?.data.retryLimit && self.isFirstFactor == true {
+                            startTimer()
+                        }
                         auth.lblEnterValidePassword.text = genericResp.errorMessage
                         print("AuthErrMsg----\(genericResp.errorMessage)")
                         
                     } else if type == .SIXDIGITPIN {
+                        pinView.count += 1
+                        if pinView.count == TAAuthRespObj?.data.retryLimit && self.isFirstFactor == true {
+                            startTimer()
+                        }
                         pinView.lblEnterValidPIN.text = genericResp.errorMessage
                         print("PINErrMsg----\(genericResp.errorMessage)")
                         
                     } else if type == .MOBILE_PIN {
+                        count += 1
+                        if mobile.count == TAAuthRespObj?.data.retryLimit && self.isFirstFactor == true {
+                            startTimer()
+                        }
                         mobile.lblEnterValidMobNum.text = genericResp.errorMessage
                         print("MobileErrMsg----\(genericResp.errorMessage)")
                     }
@@ -183,7 +211,6 @@ public class Authenticator : TAAuthProtocols {
             }
             hideLoader()
         }
-        
     }
     
     @objc func timeFired(){
@@ -197,15 +224,13 @@ public class Authenticator : TAAuthProtocols {
             print("userLockedMsg----\(msg)")
             
             let componentType = TAAuthRespObj?.data.componentType
-            print("componentType",componentType)
+            print("componentType",componentType as Any)
             if componentType == .USERNAME_PASSWORD  || componentType == .EMAIL_PASSWORD {
-                auth.viewContainerAuth.isUserInteractionEnabled = false
+              //  auth.viewContainerAuth.isUserInteractionEnabled = false
                
             }else {
                 self.InitialAuthetication(startAuthModel: self.startAuthModel!)
             }
-           
-           
         }, viewController: self.controller ?? UIViewController())
     }
     
@@ -218,6 +243,7 @@ public class Authenticator : TAAuthProtocols {
         self.SetAuthNextStep(nextStep: (self.TAAuthRespObj?.data.nextStep) ?? 0)
         self.SetComponentType(authFactor: dataObj!.authType, nextStep: dataObj!.nextStepEnum)
         self.userLockCounter = dataObj!.lockoutMinutes
+        //self.isFirstFactor = ((dataObj?.retryLimit) != nil)
         print("Factor ==> \(String(describing: self.TAAuthRespObj?.data.nextStepEnum))")
         print("Type ==> \(String(describing: self.TAAuthRespObj?.data.authType))")
         
@@ -244,18 +270,21 @@ public class Authenticator : TAAuthProtocols {
                 if view.isKind(of: AuthenticationLogIn.self) {
                     if let pAuthView = view as? AuthenticationLogIn {
                         auth = pAuthView
+                        auth.controller = self.controller
                     }
                 }
                 pinView = .init()
                 if view.isKind(of: PINView.self) {
                     if let pView = view as? PINView {
                         pinView = pView
+                        pinView.controller = self.controller
                     }
                 }
                 mobile = .init()
                 if view.isKind(of: Mobile_Number.self) {
                     if let pMobileView = view as? Mobile_Number {
                         mobile = pMobileView
+                        mobile.controller = self.controller
                     }
                 }
             }
@@ -346,12 +375,11 @@ public class Authenticator : TAAuthProtocols {
         if let taggedView = self.controller?.view.viewWithTag(self.tagForComponent) {
             taggedView.removeFromSuperview()
         }
-        
         let compManager = ComponentManager.init(delegate: self)
         
         let nextStep = (self.TAAuthRespObj?.data.nextStep)!
         let factor = (self.TAAuthRespObj?.data.nextAuthFactor)!
-        let viewfactorwise = compManager.configureComponentFactorwise(nextStep: nextStep, authFactor: factor, respObj:(self.TAAuthRespObj?.data!)!)
+        let viewfactorwise = compManager.configureComponentFactorwise(nextStep: nextStep, authFactor: factor, respObj:(self.TAAuthRespObj?.data!)!, isFirstFactor: self.isFirstFactor)
         viewfactorwise?.tag = self.tagForComponent
         viewfactorwise?.frame = (self.controller?.view.frame)!
         
@@ -456,25 +484,35 @@ extension Authenticator{
     
     func stopTimer(){
         timer.invalidate()
+        let type = TAAuthRespObj?.data.componentType
+        if type == .USERNAME_PASSWORD || type == .EMAIL_PASSWORD{
+            auth.count = 0
+        }else if type == .MOBILE_PIN{
+            mobile.count = 0
+        }else {
+            pinView.count = 0
+        }
+        
+        // which type of this comp
+        // take instance of this type
+        // set 0 to counter
+        
         
     }
     func convertMinIntoSec(time:Int){
-       
-        var convertTosec = time * 60
+        let convertTosec = time * 60
         userLockCounterForSec = convertTosec
-        
     }
     
     
-    func userLockTime()  {
-        
-        print("convertoSec",userLockCounterForSec)
+    func userLockTime() {
         userLockCounterForSec -= 1
+        print("convertoSec",userLockCounterForSec)
+        userDefaults.set(userLockCounterForSec, forKey: constantValue.API_COUNT)
         if userLockCounterForSec <= 0{
             print("Finish")
-         //   self.controller?.view.isUserInteractionEnabled = true
+            count = 0            
             stopTimer()
         }
-
     }
 }
