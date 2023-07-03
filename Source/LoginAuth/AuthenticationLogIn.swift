@@ -392,12 +392,12 @@ extension AuthenticationLogIn:UITextFieldDelegate{
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
         if textField == tfEmail {
-            if newText != nil {
+            if !newText.isEmpty {
                 lblEnterValidAuth.text = ""
                 
             }
         }else if textField == tfPassword{
-            if newText != nil{
+            if !newText.isEmpty{
                 lblEnterValidePassword.text = ""
             }
         }
